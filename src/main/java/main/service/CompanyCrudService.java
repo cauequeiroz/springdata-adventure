@@ -4,28 +4,28 @@ import java.util.Scanner;
 
 import org.springframework.stereotype.Service;
 
-import main.entity.Role;
-import main.repository.RoleRepository;
+import main.entity.Company;
+import main.repository.CompanyRepository;
 
 @Service
-public class RoleCrudService {
+public class CompanyCrudService {
 	
-	private final RoleRepository roleRepository;
+	private final CompanyRepository companyRepository;
 	private boolean running = false;
 	
-	public RoleCrudService(RoleRepository roleRepository) {
-		this.roleRepository = roleRepository;
+	public CompanyCrudService(CompanyRepository companyRepository) {
+		this.companyRepository = companyRepository;
 	}
 	
 	public void init(Scanner scanner) {
 		running = true;
 		
 		while(running) {
-			System.out.println("\n[Role] Choose your action:");
-			System.out.println("1 - Create role");
-			System.out.println("2 - Read all roles");
-			System.out.println("3 - Update role");
-			System.out.println("4 - Delete role");
+			System.out.println("\n[Company] Choose your action:");
+			System.out.println("1 - Create");
+			System.out.println("2 - Read all");
+			System.out.println("3 - Update");
+			System.out.println("4 - Delete");
 			System.out.println("0 - Exit");
 			
 			int action = scanner.nextInt();
@@ -50,39 +50,39 @@ public class RoleCrudService {
 	}
 	
 	public void create(Scanner scanner) {
-		System.out.print("Role name: ");
+		System.out.print("Company name: ");
 		String name = scanner.next();
 		
-		Role role = new Role();
-		role.setName(name);
+		Company company = new Company();
+		company.setName(name);
 		
-		roleRepository.save(role);	
+		companyRepository.save(company);	
 		System.out.println("Saved.");
 	}
 	
 	public void update(Scanner scanner) {
-		System.out.print("Role id: ");
+		System.out.print("Company id: ");
 		int id = scanner.nextInt();
-		System.out.print("Role name: ");
+		System.out.print("Company name: ");
 		String name = scanner.next();
 		
-		Role role = new Role();
-		role.setId(id);
-		role.setName(name);
+		Company company = new Company();
+		company.setId(id);
+		company.setName(name);
 		
-		roleRepository.save(role);
+		companyRepository.save(company);
 		System.out.println("Updated.");
 	}
 	
 	public void read() {
-		roleRepository.findAll().forEach(System.out::println);
+		companyRepository.findAll().forEach(System.out::println);
 	}
 	
 	public void delete(Scanner scanner) {
-		System.out.print("Role id: ");
+		System.out.print("Company id: ");
 		int id = scanner.nextInt();
 		
-		roleRepository.deleteById(id);
+		companyRepository.deleteById(id);
 		System.out.println("Deleted.");
 	}
 }

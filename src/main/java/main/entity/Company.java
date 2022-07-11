@@ -6,12 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "companies")
+public class Company {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,10 @@ public class Role {
 	
 	private String name;
 	
-	@OneToMany(mappedBy = "role")
+	@ManyToMany(mappedBy = "companies")
 	private List<Employee> employees;
-	
-	public Role() {
+
+	public Company() {
 	}
 
 	public Integer getId() {
@@ -40,9 +40,9 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", name=" + name + "]";
-	}
+		return "Company [id=" + id + ", name=" + name + "]";
+	}	
 }
