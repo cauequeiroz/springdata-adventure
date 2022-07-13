@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import main.service.CompanyCrudService;
 import main.service.EmployeeCrudService;
+import main.service.PlaygroundService;
 import main.service.RoleCrudService;
 
 @SpringBootApplication
@@ -15,12 +16,14 @@ public class Application implements CommandLineRunner {
 	private final RoleCrudService roleCrudService;
 	private final CompanyCrudService companyCrudService;
 	private final EmployeeCrudService employeeCrudService;
+	private final PlaygroundService playgroundService;
 	private boolean running = true;
 	
-	public Application(RoleCrudService roleCrudService, CompanyCrudService companyCrudService, EmployeeCrudService employeeCrudService) {
+	public Application(RoleCrudService roleCrudService, CompanyCrudService companyCrudService, EmployeeCrudService employeeCrudService, PlaygroundService playgroundService) {
 		this.roleCrudService = roleCrudService;
 		this.companyCrudService = companyCrudService;
 		this.employeeCrudService = employeeCrudService;
+		this.playgroundService = playgroundService;
 	}
 
 	public static void main(String[] args) {
@@ -36,6 +39,7 @@ public class Application implements CommandLineRunner {
 			System.out.println("1 - Role");
 			System.out.println("2 - Company");
 			System.out.println("3 - Employee");
+			System.out.println("4 - Playground");
 			System.out.println("0 - Exit");
 			
 			int action = scanner.nextInt();
@@ -50,6 +54,8 @@ public class Application implements CommandLineRunner {
 				case 3:
 					employeeCrudService.init(scanner);
 					break;
+				case 4:
+					playgroundService.init(scanner);
 				default:
 					running = false;
 			}
