@@ -7,10 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import main.entity.Employee;
 import main.entity.Role;
 import main.repository.EmployeeRepository;
+import main.repository.EmployeeSpecification;
 import main.repository.RoleRepository;
 
 @Service
@@ -28,7 +31,7 @@ public class PlaygroundService {
 		employeeRepository.findByName("asdf").forEach(System.out::println);		
 		
 		System.out.println("\nFind employee by salary greater than: 250.0");
-		employeeRepository.findBySalaryBiggerThan(new BigDecimal(250.0)).forEach(System.out::println);	
+		employeeRepository.findBySalaryBiggerThan(new BigDecimal(250.0)).forEach(e -> System.out.println(e.getId() + " " + e.getName() + " " + e.getSalary()));	
 		
 		System.out.println("\nFind role by name size: 8");
 		roleRepository.findByNameSize(8).forEach(System.out::println);
@@ -45,5 +48,29 @@ public class PlaygroundService {
 		roles = roleRepository.findAll(PageRequest.of(2, 3));
 		roles.forEach(System.out::println);
 		System.out.println((roles.getNumber() + 1) + "/" + roles.getTotalPages() + " - Total: " + roles.getTotalElements());
+		
+		System.out.println("\n==========\n");
+		
+		System.out.println("Dynamic employee search:");
+		
+		String name = "Je";
+		String cpf = null;
+		BigDecimal salary = new BigDecimal("200");
+		
+		Specification<Employee> condition = Specification.where(null);
+		
+		if (name != null) {
+			condition = condition.and(EmployeeSpecification.nameLike(name));
+		}
+		
+		if (cpf != null) {
+			condition = condition.and(EmployeeSpecification.cpfEquals(cpf));
+		}
+		
+		if (salary != null) {
+			condition = condition.and(EmployeeSpecification.salaryGreaterThan(salary));
+		}
+		
+		employeeRepository.findAll(condition).forEach(System.out::println);
 	}
 }
